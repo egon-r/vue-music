@@ -1,6 +1,7 @@
 <script>
 import axios from "axios";
 import emitter, { MusicLibraryEvents } from "@/services/emitter";
+import { backend_base_url } from "@/main";
 
 export default {
   methods: {
@@ -9,7 +10,7 @@ export default {
       e.preventDefault();
       const formData = new FormData(this.$refs["uploadForm"]);
       axios
-        .post("http://localhost:3000/v1/library/add", formData, {
+        .post(backend_base_url + "/v1/library/add", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

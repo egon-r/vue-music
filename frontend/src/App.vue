@@ -5,9 +5,10 @@ import BottomBar from "@/components/BottomBar.vue";
 import MusicLibraryView from "@/components/MusicLibraryView.vue";
 import HLSMusicPlayer from "@/components/HLSMusicPlayer.vue";
 import UploadMusic from "@/components/UploadMusic.vue";
+import TopBar from "@/components/TopBar.vue";
 
 export default {
-  components: { UploadMusic, HLSMusicPlayer, MusicLibraryView, BottomBar, Card, ThemeToggle },
+  components: { TopBar, UploadMusic, HLSMusicPlayer, MusicLibraryView, BottomBar, Card, ThemeToggle },
 }
 </script>
 
@@ -15,7 +16,7 @@ export default {
   <header></header>
 
   <main>
-    <ThemeToggle />
+    <TopBar/>
     <Card>
       <HLSMusicPlayer/>
     </Card>
@@ -25,6 +26,7 @@ export default {
     <Card>
       <UploadMusic/>
     </Card>
+
     <BottomBar />
   </main>
 </template>

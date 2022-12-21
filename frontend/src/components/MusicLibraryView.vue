@@ -4,6 +4,7 @@ import emitter, {
   HLSPlayerEvents,
   MusicLibraryEvents,
 } from "@/services/emitter";
+import { backend_base_url } from "@/main";
 
 export default {
   data() {
@@ -24,7 +25,7 @@ export default {
     },
     deleteSong(song) {
       axios
-        .get("http://localhost:3000/v1/library/delete", {
+        .get(backend_base_url + "/v1/library/delete", {
           params: {
             hash: song.sha1,
           },
@@ -34,7 +35,7 @@ export default {
         });
     },
     fetchSongs() {
-      axios.get("http://localhost:3000/v1/library").then((response) => {
+      axios.get(backend_base_url + "/v1/library").then((response) => {
         this.songs = response.data;
       });
     },
@@ -48,10 +49,10 @@ export default {
 <template>
   <div class="text-3xl">Music Library</div>
   <div
-    class="cursor-pointer border-2 hover:border-amber-600"
+    class="flex cursor-pointer m-1 border-2 hover:border-amber-600"
     v-for="song in songs"
   >
-    <div @click="playSong($event, song)">{{ song.title }}</div>
-    <div class="text-red-700 hover:bg-white" @click="deleteSong(song)">X</div>
+    <div class="flex-auto" @click="playSong($event, song)">{{ song.title }}</div>
+    <div class="text-red-700 flex-initial p-1 hover:bg-red-600 hover:text-white" @click="deleteSong(song)">X</div>
   </div>
 </template>

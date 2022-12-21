@@ -21,8 +21,7 @@ export default {
       border-2 border-slate-400
       bg-slate-500
       p-4
-      shadow-xl shadow-slate-400
-      dark:bg-slate-700 dark:shadow-slate-800
+      dark:bg-black
     "
   >
     <div>{{ header }}</div>

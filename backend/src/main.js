@@ -28,6 +28,9 @@ fastify.register(FastifyStatic, {
     prefix: "/stream/"
 })
 
+fastify.get("/", async (req, res) => {
+    res.send(200)
+})
 
 fastify.get("/v1/library", async (req, res) => {
     res.send(await SongModel.find())
