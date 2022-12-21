@@ -1,24 +1,32 @@
 <script>
-import ThemeToggle from "@/components/ThemeToggle.vue";
-import Card from "@/components/Card.vue";
-import BottomBar from "@/components/BottomBar.vue";
-import MusicLibraryView from "@/components/MusicLibraryView.vue";
-import HLSMusicPlayer from "@/components/HLSMusicPlayer.vue";
-import UploadMusic from "@/components/UploadMusic.vue";
+import { RouterView } from "vue-router";
 import TopBar from "@/components/TopBar.vue";
+import HLSMusicPlayer from "@/components/HLSMusicPlayer.vue";
+import BottomBar from "@/components/BottomBar.vue";
 
 export default {
-  components: { TopBar, UploadMusic, HLSMusicPlayer, MusicLibraryView, BottomBar, Card, ThemeToggle },
-}
+  components: {
+    BottomBar,
+    TopBar,
+    RouterView,
+    HLSMusicPlayer,
+  },
+};
 </script>
 
 <template>
   <header></header>
 
   <main>
+    <TopBar />
+    <HLSMusicPlayer />
+    <div class="mx-auto max-w-screen-xl">
+      <RouterView />
+    </div>
+    <BottomBar />
+    <!--
     <TopBar/>
     <Card>
-      <HLSMusicPlayer/>
     </Card>
     <Card>
       <MusicLibraryView/>
@@ -28,5 +36,6 @@ export default {
     </Card>
 
     <BottomBar />
+    -->
   </main>
 </template>

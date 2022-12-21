@@ -2864,6 +2864,11 @@
     "@vue/compiler-dom" "3.2.45"
     "@vue/shared" "3.2.45"
 
+"@vue/devtools-api@^6.4.5":
+  version "6.4.5"
+  resolved "https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-6.4.5.tgz"
+  integrity sha512-JD5fcdIuFxU4fQyXUu3w2KpAJHzTVdN+p4iOX2lMWSHMOoQdMAcpFLZzm9Z/2nmsoZ1a96QEhZ26e50xLBsgOQ==
+
 "@vue/eslint-config-prettier@^7.0.0":
   version "7.0.0"
   resolved "https://registry.npmjs.org/@vue/eslint-config-prettier/-/eslint-config-prettier-7.0.0.tgz"
@@ -3584,7 +3589,7 @@ axios@^0.25.0:
 
 axios@^1.2.1:
   version "1.2.1"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.2.1.tgz#44cf04a3c9f0c2252ebd85975361c026cb9f864a"
+  resolved "https://registry.npmjs.org/axios/-/axios-1.2.1.tgz"
   integrity sha512-I88cFiGu9ryt/tfVEi4kX2SITsvDddTajXTOFmt2uK1ZVA8LytjtdeyefdQWEf5PU8w+4SSJDoYnggflB5tW4A==
   dependencies:
     follow-redirects "^1.15.0"
@@ -6668,7 +6673,7 @@ he@^1.2.0:
 
 hls.js@^1.2.9:
   version "1.2.9"
-  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.2.9.tgz#2f25e42ec4c2ea8c88ab23c0f854f39062d45ac9"
+  resolved "https://registry.npmjs.org/hls.js/-/hls.js-1.2.9.tgz"
   integrity sha512-SPjm8ix0xe6cYzwDvdVGh2QvQPDkCYrGWpZu6bRaKNNVyEGWM9uF0pooh/Lqj/g8QBQgPFEx1vHzW8SyMY9rqg==
 
 hmac-drbg@^1.0.1:
@@ -8301,7 +8306,7 @@ mississippi@^3.0.0:
 
 mitt@^3.0.0:
   version "3.0.0"
-  resolved "https://registry.yarnpkg.com/mitt/-/mitt-3.0.0.tgz#69ef9bd5c80ff6f57473e8d89326d01c414be0bd"
+  resolved "https://registry.npmjs.org/mitt/-/mitt-3.0.0.tgz"
   integrity sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==
 
 mixin-deep@^1.2.0:
@@ -9359,7 +9364,7 @@ proxy-from-env@1.0.0:
 
 proxy-from-env@^1.1.0:
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.1.0.tgz#e102f16ca355424865755d2c9e8ea4f24d58c3e2"
+  resolved "https://registry.npmjs.org/proxy-from-env/-/proxy-from-env-1.1.0.tgz"
   integrity sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==
 
 prr@~1.0.1:
@@ -11008,7 +11013,7 @@ timers-browserify@^2.0.4:
 
 tiny-emitter@^2.1.0:
   version "2.1.0"
-  resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.1.0.tgz#1d1a56edfc51c43e863cbb5382a72330e3555423"
+  resolved "https://registry.npmjs.org/tiny-emitter/-/tiny-emitter-2.1.0.tgz"
   integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
 
 tinybench@^2.3.1:
@@ -11700,6 +11705,13 @@ vue-loader@^16.4.1, vue-loader@^16.8.3:
     chalk "^4.1.0"
     hash-sum "^2.0.0"
     loader-utils "^2.0.0"
+
+vue-router@4:
+  version "4.1.6"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.1.6.tgz#b70303737e12b4814578d21d68d21618469375a1"
+  integrity sha512-DYWYwsG6xNPmLq/FmZn8Ip+qrhFEzA14EI12MsMgVxvHFDYvlr4NXpVF5hrRH1wVcDP8fGi5F4rxuJSl8/r+EQ==
+  dependencies:
+    "@vue/devtools-api" "^6.4.5"
 
 vue@^3.2.45:
   version "3.2.45"

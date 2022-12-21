@@ -14,10 +14,16 @@ export default {
   },
   mounted() {
     this.fetchSongs();
-    emitter.on(MusicLibraryEvents.modified, this.onLibraryModifiedEvent);
+    emitter.on(
+      MusicLibraryEvents.modified,
+      this.emitter_onLibraryModifiedEvent
+    );
   },
   unmounted() {
-    emitter.off(MusicLibraryEvents.modified, this.onLibraryModifiedEvent);
+    emitter.off(
+      MusicLibraryEvents.modified,
+      this.emitter_onLibraryModifiedEvent
+    );
   },
   methods: {
     playSong(event, song) {
@@ -39,7 +45,7 @@ export default {
         this.songs = response.data;
       });
     },
-    onLibraryModifiedEvent() {
+    emitter_onLibraryModifiedEvent() {
       this.fetchSongs();
     },
   },
@@ -49,10 +55,17 @@ export default {
 <template>
   <div class="text-3xl">Music Library</div>
   <div
-    class="flex cursor-pointer m-1 border-2 hover:border-amber-600"
+    class="m-1 flex cursor-pointer border-2 hover:border-amber-600"
     v-for="song in songs"
   >
-    <div class="flex-auto" @click="playSong($event, song)">{{ song.title }}</div>
-    <div class="text-red-700 flex-initial p-1 hover:bg-red-600 hover:text-white" @click="deleteSong(song)">X</div>
+    <div class="flex-auto" @click="playSong($event, song)">
+      {{ song.title }}
+    </div>
+    <div
+      class="flex-initial p-1 text-red-700 hover:bg-red-600 hover:text-white"
+      @click="deleteSong(song)"
+    >
+      X
+    </div>
   </div>
 </template>
