@@ -5,6 +5,7 @@ const songSchema = new mongoose.Schema({
     artist: String,
     album: String,
     year: Number,
+    duration: Number,
     sha1: {
         type: String,
         index: true,

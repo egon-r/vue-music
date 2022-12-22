@@ -5,8 +5,10 @@ import emitter, {
   MusicLibraryEvents,
 } from "@/services/emitter";
 import { backend_base_url } from "@/main";
+import SongListItem from "@/components/SongListItem.vue";
 
 export default {
+  components: { SongListItem },
   data() {
     return {
       songs: null,
@@ -29,17 +31,6 @@ export default {
     playSong(event, song) {
       emitter.emit(HLSPlayerEvents.play, song);
     },
-    deleteSong(song) {
-      axios
-        .get(backend_base_url + "/v1/library/delete", {
-          params: {
-            hash: song.sha1,
-          },
-        })
-        .then(() => {
-          emitter.emit(MusicLibraryEvents.modified);
-        });
-    },
     fetchSongs() {
       axios.get(backend_base_url + "/v1/library").then((response) => {
         this.songs = response.data;
@@ -55,17 +46,9 @@ export default {
 <template>
   <div class="text-3xl">Music Library</div>
   <div
-    class="m-1 flex cursor-pointer border-2 hover:border-amber-600"
+    class="m-1 cursor-pointer border-2 hover:border-amber-600"
     v-for="song in songs"
   >
-    <div class="flex-auto" @click="playSong($event, song)">
-      {{ song.title }}
-    </div>
-    <div
-      class="flex-initial p-1 text-red-700 hover:bg-red-600 hover:text-white"
-      @click="deleteSong(song)"
-    >
-      X
-    </div>
+    <SongListItem :song="song"/>
   </div>
 </template>

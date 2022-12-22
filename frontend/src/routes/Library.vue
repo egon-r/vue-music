@@ -7,17 +7,17 @@ export default {
   components: {
     UploadMusic,
     Card,
-    MusicLibraryView
-  }
-}
+    MusicLibraryView,
+  },
+};
 </script>
 
 <template>
   <Card>
-    <UploadMusic/>
+    <UploadMusic />
   </Card>
   <Card>
-    <MusicLibraryView/>
+    <MusicLibraryView />
   </Card>
 </template>
 

@@ -1,5 +1,7 @@
 <script>
 import emitter, { HLSPlayerEvents } from "@/services/emitter";
+import { MusicPlayerData } from "@/components/data/MusicPlayerData";
+import { seconds_to_duration_str } from "../utils/utils";
 
 export default {
   computed: {
@@ -9,56 +11,26 @@ export default {
   },
   data() {
     return {
-      currentSong: null,
-      isPlaying: false,
-      currentVolume: 20,
-      currentSongDuration: 0,
-      currentSongPlaytime: 0,
+      playerData: MusicPlayerData,
       userIsSeeking: false,
+      currentSeekValue: 0,
     };
   },
-  mounted() {
-    emitter.on(HLSPlayerEvents.play, this.emitter_onPlayEvent);
-    emitter.on(HLSPlayerEvents.pause, this.emitter_onPauseEvent);
-    emitter.on(HLSPlayerEvents.metadata_loaded, this.emitter_onMetadataLoaded);
-    emitter.on(HLSPlayerEvents.timeupdate, this.emitter_onTimeupdate);
-  },
-  unmounted() {
-    emitter.off(HLSPlayerEvents.play, this.emitter_onPlayEvent);
-    emitter.off(HLSPlayerEvents.pause, this.emitter_onPauseEvent);
-    emitter.on(HLSPlayerEvents.metadata_loaded, this.emitter_onMetadataLoaded);
-    emitter.on(HLSPlayerEvents.timeupdate, this.emitter_onTimeupdate);
-  },
   methods: {
+    seconds_to_duration_str,
     emitter() {
       return emitter;
     },
-    emitter_onPlayEvent(song) {
-      if (song) {
-        this.currentSong = song;
-      }
-      this.isPlaying = true;
-    },
-    emitter_onPauseEvent() {
-      this.isPlaying = false;
-    },
-    volumeChanged() {
-      emitter.emit(HLSPlayerEvents.set_volume, this.currentVolume / 100.0);
+    volumeChanged(event) {
+      this.playerData.currentVolume = event.target.value / 100.0;
     },
     seekbar_change(event) {
       this.userIsSeeking = false;
-      emitter.emit(HLSPlayerEvents.seek_to_s, event.target.value);
+      emitter.emit(HLSPlayerEvents.seek_to_s, this.currentSeekValue);
     },
-    seekbar_seeking() {
+    seekbar_seeking(event) {
       this.userIsSeeking = true;
-    },
-    emitter_onMetadataLoaded(metadata) {
-      this.currentSongDuration = Math.round(metadata.durationS);
-    },
-    emitter_onTimeupdate(timeS) {
-      if (!this.userIsSeeking) {
-        this.currentSongPlaytime = Math.round(timeS);
-      }
+      this.currentSeekValue = event.target.value;
     },
   },
 };
@@ -82,43 +54,46 @@ export default {
     "
   >
     <div class="m-1 flex flex-col justify-start">
-      <div class="truncate">{{ currentSong?.title ?? "Title" }}</div>
-      <div class="truncate">{{ currentSong?.artist ?? "Artist" }}</div>
+      <div class="truncate">{{ playerData.currentSong.title ?? "Title" }}</div>
+      <div class="truncate">
+        {{ playerData.currentSong.artist ?? "Artist" }}
+      </div>
     </div>
     <div class="flex justify-center">
       <span class="material-icons">skip_previous</span>
       <span
-        v-if="isPlaying"
+        v-if="playerData.isPlaying"
         class="material-icons cursor-pointer"
-        @click="emitter().emit(HLSPlayerEvents.pause, null)"
+        @click="playerData.isPlaying = false"
         >pause</span
       >
       <span
         v-else
         class="material-icons cursor-pointer"
-        @click="emitter().emit(HLSPlayerEvents.play, null)"
+        @click="playerData.isPlaying = true"
         >play_arrow</span
       >
       <span class="material-icons">skip_next</span>
       <input
         min="0"
-        :max="currentSongDuration"
-        :value="currentSongPlaytime"
+        :max="playerData.currentSong.duration"
+        :value="userIsSeeking ? currentSeekValue : playerData.currentSongPlaytime"
         class="flex-grow"
         type="range"
         @input="seekbar_seeking"
         @change="seekbar_change"
       />
       <span class="flex items-center">
-        {{ currentSongPlaytime }} / {{ currentSongDuration }}
+        {{ seconds_to_duration_str(userIsSeeking ? currentSeekValue : playerData.currentSongPlaytime) }} /
+        {{ seconds_to_duration_str(playerData.currentSong.duration) }}
       </span>
     </div>
     <div class="flex justify-end">
       <span class="material-icons">{{
-        currentVolume === 0
+        playerData.currentVolume === 0
           ? "volume_off"
-          : currentVolume >= 10
-          ? currentVolume >= 50
+          : playerData.currentVolume >= 0.1
+          ? playerData.currentVolume >= 0.5
             ? "volume_up"
             : "volume_down"
           : "volume_mute"
@@ -128,10 +103,12 @@ export default {
         class="flex-grow"
         min="0"
         max="100"
-        v-model="currentVolume"
+        :value="playerData.currentVolume * 100"
         @input="volumeChanged"
       />
       <span class="material-icons">playlist_play</span>
+      <span class="material-icons">repeat</span>
+      <span class="material-icons">repeat_one</span>
     </div>
   </div>
 </template>

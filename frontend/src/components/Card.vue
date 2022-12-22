@@ -1,16 +1,5 @@
 <script>
 export default {
-  name: "card",
-  props: {
-    header: {
-      type: String,
-      required: true,
-    },
-    content: {
-      type: String,
-      required: true,
-    },
-  },
 };
 </script>
 
@@ -24,8 +13,6 @@ export default {
       dark:bg-black
     "
   >
-    <div>{{ header }}</div>
-    <div>{{ content }}</div>
     <slot></slot>
   </div>
 </template>

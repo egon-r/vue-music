@@ -17,8 +17,10 @@ import {sleep} from "./util/utils.js";
 mongoose.set('strictQuery', false)
 await mongoose.connect("mongodb://root:password@mongo:27017/")
 
+// await SongModel.collection.drop()
+
 const fastify = Fastify({
-    logger: true
+    //logger: true
 })
 
 fastify.register(FastifyCORS, {})
@@ -96,6 +98,7 @@ fastify.post("/v1/library/add", async (req, res) => {
             artist: artist,
             album: album,
             year: year,
+            duration: metadata.format.duration,
             sha1: hash,
         })
 
