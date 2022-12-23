@@ -1,39 +1,41 @@
-<script>
-import emitter, { HLSPlayerEvents } from "@/services/emitter";
-import { MusicPlayerData } from "@/components/data/MusicPlayerData";
-import { seconds_to_duration_str } from "../utils/utils";
+<script lang="ts">
+import { MusicPlayerData } from "./data/MusicPlayerData"
+import emitter, { HLSPlayerEvents } from "../services/emitter"
+import Utils from "../utils/utils";
 
 export default {
   computed: {
-    HLSPlayerEvents() {
-      return HLSPlayerEvents;
+    Utils() {
+      return Utils
     },
+    HLSPlayerEvents () {
+      return HLSPlayerEvents
+    }
   },
-  data() {
+  data () {
     return {
       playerData: MusicPlayerData,
       userIsSeeking: false,
-      currentSeekValue: 0,
-    };
+      currentSeekValue: 0
+    }
   },
   methods: {
-    seconds_to_duration_str,
-    emitter() {
-      return emitter;
+    emitter () {
+      return emitter
     },
-    volumeChanged(event) {
-      this.playerData.currentVolume = event.target.value / 100.0;
+    volumeChanged (event) {
+      this.playerData.currentVolume = event.target.value / 100.0
     },
-    seekbar_change(event) {
-      this.userIsSeeking = false;
-      emitter.emit(HLSPlayerEvents.seek_to_s, this.currentSeekValue);
+    seekbar_change (event) {
+      this.userIsSeeking = false
+      emitter.emit(HLSPlayerEvents.seek_to_s, this.currentSeekValue)
     },
-    seekbar_seeking(event) {
-      this.userIsSeeking = true;
-      this.currentSeekValue = event.target.value;
-    },
-  },
-};
+    seekbar_seeking (event) {
+      this.userIsSeeking = true
+      this.currentSeekValue = event.target.value
+    }
+  }
+}
 </script>
 
 <template>
@@ -77,15 +79,22 @@ export default {
       <input
         min="0"
         :max="playerData.currentSong.duration"
-        :value="userIsSeeking ? currentSeekValue : playerData.currentSongPlaytime"
-        class="flex-grow"
+        :value="
+          userIsSeeking ? currentSeekValue : playerData.currentSongPlaytime
+        "
+        class="grow"
         type="range"
         @input="seekbar_seeking"
         @change="seekbar_change"
       />
       <span class="flex items-center">
-        {{ seconds_to_duration_str(userIsSeeking ? currentSeekValue : playerData.currentSongPlaytime) }} /
-        {{ seconds_to_duration_str(playerData.currentSong.duration) }}
+        {{
+          Utils.secondsToDurationStr(
+            userIsSeeking ? currentSeekValue : playerData.currentSongPlaytime
+          )
+        }}
+        /
+        {{ Utils.secondsToDurationStr(playerData.currentSong.duration) }}
       </span>
     </div>
     <div class="flex justify-end">
@@ -100,7 +109,7 @@ export default {
       }}</span>
       <input
         type="range"
-        class="flex-grow"
+        class="grow"
         min="0"
         max="100"
         :value="playerData.currentVolume * 100"

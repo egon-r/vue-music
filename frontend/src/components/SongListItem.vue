@@ -1,41 +1,43 @@
-<script>
-import emitter, {
-  MusicLibraryEvents,
-} from "@/services/emitter";
-import axios from "axios";
-import { backend_base_url } from "@/main";
-import { MusicPlayerData } from "@/components/data/MusicPlayerData";
-import { seconds_to_duration_str } from "../utils/utils";
+<script lang="ts">
+import { backendBaseUrl } from "../main"
+import emitter, { MusicLibraryEvents } from "../services/emitter"
+import { MusicPlayerData } from "./data/MusicPlayerData"
+import axios from "axios"
+import Utils from "../utils/utils"
 
 export default {
+  computed: {
+    Utils () {
+      return Utils
+    }
+  },
   props: {
     song: {
-      required: true,
-    },
+      required: true
+    }
   },
-  data() {
+  data () {
     return {
-      playerData: MusicPlayerData,
-    };
+      playerData: MusicPlayerData
+    }
   },
   methods: {
-    seconds_to_duration_str,
-    playSong(event, song) {
-      this.playerData.currentSong = song;
+    playSong (event, song) {
+      this.playerData.currentSong = song
     },
-    deleteSong(song) {
+    deleteSong (song) {
       axios
-        .get(backend_base_url + "/v1/library/delete", {
+        .get(backendBaseUrl + "/v1/library/delete", {
           params: {
-            hash: song.sha1,
-          },
+            hash: song.sha1
+          }
         })
         .then(() => {
-          emitter.emit(MusicLibraryEvents.modified);
-        });
-    },
-  },
-};
+          emitter.emit(MusicLibraryEvents.modified)
+        })
+    }
+  }
+}
 </script>
 
 <template>
@@ -52,19 +54,9 @@ export default {
       </span>
     </div>
     <div class="mx-4 flex flex-initial">
-      <!--
-      <div
-        class="p-1 text-red-700 hover:bg-red-600 hover:text-white"
-        @click="deleteSong(song)"
-      >
-        X
-      </div>
-      -->
-      <div class="material-icons hover:bg-red-600 w-8">
-        more_vertical
-      </div>
+      <div class="material-icons w-8 hover:bg-red-600">more_vertical</div>
       <div class="self-center opacity-60">
-        {{ seconds_to_duration_str(song.duration) }}
+        {{ Utils.secondsToDurationStr(song.duration) }}
       </div>
     </div>
   </div>

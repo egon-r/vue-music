@@ -1,10 +1,7 @@
-<script>
-import { defineComponent } from "vue";
-import Card from "@/components/Card.vue";
+<script lang="ts">
+import { defineComponent } from "vue"
 
-export default defineComponent({
-  components: { Card }
-});
+export default defineComponent({})
 </script>
 
 <template>

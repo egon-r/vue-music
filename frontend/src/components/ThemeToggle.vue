@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 export default {
   name: "ThemeToggle",
 
@@ -7,48 +7,48 @@ export default {
       type: String,
       default: "auto",
       validator: (value) => {
-        return ["dark", "light", "auto"].indexOf(value) !== -1;
-      },
-    },
+        return ["dark", "light", "auto"].indexOf(value) !== -1
+      }
+    }
   },
 
   methods: {
-    getCurrentTheme() {
+    getCurrentTheme () {
       if (window.matchMedia) {
         if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-          document.documentElement.classList.add("dark");
-          return "dark";
+          document.documentElement.classList.add("dark")
+          return "dark"
         } else {
-          return "light";
+          return "light"
         }
       } else {
-        console.log("window.matchMedia() not supported!");
+        console.log("window.matchMedia() not supported!")
       }
-      return "auto";
+      return "auto"
     },
 
-    toggleTheme() {
+    toggleTheme () {
       if (this.theme === "dark") {
-        this.theme = "light";
-        document.documentElement.classList.remove("dark");
+        this.theme = "light"
+        document.documentElement.classList.remove("dark")
       } else {
-        this.theme = "dark";
-        document.documentElement.classList.add("dark");
+        this.theme = "dark"
+        document.documentElement.classList.add("dark")
       }
     },
 
-    onClick() {
-      this.toggleTheme();
-    },
+    onClick () {
+      this.toggleTheme()
+    }
   },
 
-  data() {
-    const initialTheme = this.getCurrentTheme();
+  data () {
+    const initialTheme = this.getCurrentTheme()
     return {
-      theme: initialTheme,
-    };
-  },
-};
+      theme: initialTheme
+    }
+  }
+}
 </script>
 
 <template>

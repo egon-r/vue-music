@@ -1,17 +1,17 @@
-<script>
-import { RouterView } from "vue-router";
-import TopBar from "@/components/TopBar.vue";
-import HLSMusicPlayer from "@/components/HLSMusicPlayer.vue";
-import BottomBar from "@/components/BottomBar.vue";
+<script lang="ts">
+import { RouterView } from "vue-router"
+import TopBar from "@/components/TopBar.vue"
+import HLSMusicPlayer from "@/components/HLSMusicPlayer.vue"
+import BottomBar from "@/components/BottomBar.vue"
 
 export default {
   components: {
     BottomBar,
     TopBar,
     RouterView,
-    HLSMusicPlayer,
-  },
-};
+    HLSMusicPlayer
+  }
+}
 </script>
 
 <template>
@@ -24,18 +24,5 @@ export default {
       <RouterView />
     </div>
     <BottomBar />
-    <!--
-    <TopBar/>
-    <Card>
-    </Card>
-    <Card>
-      <MusicLibraryView/>
-    </Card>
-    <Card>
-      <UploadMusic/>
-    </Card>
-
-    <BottomBar />
-    -->
   </main>
 </template>

@@ -1,10 +1,10 @@
-<script>
-import ThemeToggle from "@/components/ThemeToggle.vue";
+<script lang="ts">
+import ThemeToggle from "@/components/ThemeToggle.vue"
 
 export default {
   name: "TopBar",
-  components: { ThemeToggle },
-};
+  components: { ThemeToggle }
+}
 </script>
 
 <template>
@@ -40,7 +40,7 @@ export default {
         <div class="w-20 select-none text-center">Admin</div>
       </router-link>
     </div>
-    <div class="flex-grow" />
+    <div class="grow" />
     <ThemeToggle />
   </div>
 </template>

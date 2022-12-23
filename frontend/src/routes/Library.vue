@@ -1,15 +1,15 @@
-<script>
-import MusicLibraryView from "@/components/MusicLibraryView.vue";
-import Card from "@/components/Card.vue";
-import UploadMusic from "@/components/UploadMusic.vue";
+<script lang="ts">
+import MusicLibraryView from "@/components/MusicLibraryView.vue"
+import Card from "@/components/Card.vue"
+import UploadMusic from "@/components/UploadMusic.vue"
 
 export default {
   components: {
     UploadMusic,
     Card,
-    MusicLibraryView,
-  },
-};
+    MusicLibraryView
+  }
+}
 </script>
 
 <template>
