@@ -6,5 +6,6 @@ const app_config_init = {
 
 export const app_config = {
     ...app_config_init,
-    musicLibraryStreamingPath: path.join(app_config_init.dataDirPath, "music_library_streaming"),
+    musicLibraryDir: path.join(app_config_init.dataDirPath, "music_library_streaming"),
+    transcodingDir: path.join(app_config_init.dataDirPath, "music_library_streaming", "_transcoding"),
 }

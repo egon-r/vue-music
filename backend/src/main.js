@@ -2,141 +2,60 @@ import Fastify from "fastify"
 import FastifyStatic from "@fastify/static"
 import FastifyCORS from "@fastify/cors"
 import FastifyMultipart from "@fastify/multipart"
-import {transcode_mp3_to_m3u8} from "./transcoder.js";
 import {app_config} from "./app_config.js";
-import * as path from "node:path"
 import {mongoose} from "mongoose"
-import * as MusicMetadata from "music-metadata"
+import library from "./routes/library.js";
+import transcode from "./routes/transcode.js";
+import {TranscodeService} from "./background/transcode_service.js";
 import {SongModel} from "./models.js";
-import * as fs from "fs";
-import * as crypto from "crypto";
-import {sleep} from "./util/utils.js";
-import * as stream from "stream";
 
 
+async function main() {
+    await setupMongoose()
+    const fastify = setupFastify()
+    setupRoutes(fastify)
 
-mongoose.set('strictQuery', false)
-await mongoose.connect("mongodb://root:password@mongo:27017/")
+    TranscodeService.watchDirectory(app_config.transcodingDir)
+    TranscodeService.start()
+    TranscodeService.start()
 
-// await SongModel.collection.drop()
+    //await SongModel.collection.drop()
 
-const fastify = Fastify({
-    //logger: true
-})
-
-fastify.register(FastifyCORS, {})
-fastify.register(FastifyMultipart, {})
-fastify.register(FastifyStatic, {
-    root: app_config.musicLibraryStreamingPath,
-    prefix: "/stream/"
-})
-
-fastify.get("/", async (req, res) => {
-    res.send(200)
-})
-
-fastify.get("/v1/library", async (req, res) => {
-    res.send(await SongModel.find())
-})
-
-fastify.get("/v1/library/delete:hash", async (req, res) => {
-    let playlistFilePath = path.join(app_config.musicLibraryStreamingPath, req.query.hash + ".m3u8")
-    try {
-        console.log("deleting '" + playlistFilePath + "' ...")
-        fs.rmSync(playlistFilePath)
-    } catch (e) {
-        console.error(e)
-    }
-
-    let segment = 0
-    let segmentFilePath = path.join(app_config.musicLibraryStreamingPath, req.query.hash + "_" + segment + ".ts")
-    do {
-        try {
-            console.log("deleting '" + segmentFilePath + "' ...")
-            fs.rmSync(segmentFilePath)
-        } catch (e) {
-            console.error(e)
-        }
-        segment++
-        segmentFilePath = path.join(app_config.musicLibraryStreamingPath, req.query.hash + "_" + segment + ".ts")
-    } while(fs.existsSync(segmentFilePath))
-
-    SongModel.collection.deleteOne({
-        sha1: req.query.hash
+    fastify.get("/", async (req, res) => {
+        res.send(200)
     })
-    res.code(200)
-})
 
-fastify.post("/v1/library/upload", async (req, res) => {
-    const parts = req.files()
-    for await (const part of parts) {
-        if(part.file) {
-            const outFilePath = path.join(app_config.musicLibraryStreamingPath, "_transcoding", part.filename)
-            const outFileStream = fs.createWriteStream(outFilePath)
-            const streamPromise = new Promise((resolve, reject) => {
-                part.file.on("end", resolve)
-                part.file.on("error", reject)
-            })
-            part.file.pipe(outFileStream)
-            await streamPromise
-        } else {
-            console.log(part)
+    fastify.listen({port: 3000, host: "0.0.0.0"}, (err, addr) => {
+        if (err) {
+            fastify.log.error(err)
+            process.exit(1)
         }
-    }
-    res.code(200)
-})
+    })
+}
+await main()
 
-fastify.post("/v1/library/add", async (req, res) => {
-    const files = await req.saveRequestFiles()
-    for (const file of files) {
-        const origFilename = file.filename
-        const tmpFilepath = file.filepath
 
-        const metadata = await MusicMetadata.parseFile(tmpFilepath)
-        let title = metadata.common.title ?? origFilename
-        let artist = metadata.common.artist ?? origFilename
-        let album = metadata.common.album ?? origFilename
-        let year = metadata.common.year ?? 0
+function setupFastify() {
+    const fastify = Fastify({
+        //logger: true
+    })
 
-        const tmpStream = fs.createReadStream(tmpFilepath)
-        const hasher = crypto.createHash("sha1")
-        hasher.setEncoding("hex")
-        const hasherEnd = new Promise((resolve, reject) => {
-            tmpStream.on("end", () => {
-                hasher.end()
-                resolve(hasher.read())
-            })
-            tmpStream.on("error", reject)
-        })
-        tmpStream.pipe(hasher)
-        const hash = await hasherEnd
+    fastify.register(FastifyCORS, {})
+    fastify.register(FastifyMultipart, {})
+    fastify.register(FastifyStatic, {
+        root: app_config.musicLibraryDir,
+        prefix: "/stream/"
+    })
 
-        const song = SongModel({
-            title: title,
-            artist: artist,
-            album: album,
-            year: year,
-            duration: metadata.format.duration,
-            sha1: hash,
-        })
+    return fastify
+}
 
-        if (await SongModel.exists({sha1: hash})) {
-            console.log("song '" + title + "' already in database!")
-            await sleep(1000)
-        } else {
-            console.log("transcoding '" + title + "' ...")
-            await transcode_mp3_to_m3u8(tmpFilepath, hash)
-            console.log("saving '" + title + "' to database ...")
-            await song.save()
-            console.log(song)
-        }
-    }
-    res.code(200)
-})
+function setupRoutes(fastify) {
+    library.setup(fastify)
+    transcode.setup(fastify)
+}
 
-fastify.listen({port: 3000, host: "0.0.0.0"}, (err, addr) => {
-    if (err) {
-        fastify.log.error(err)
-        process.exit(1)
-    }
-})
+async function setupMongoose() {
+    mongoose.set('strictQuery', false)
+    await mongoose.connect("mongodb://root:password@mongo:27017/")
+}
