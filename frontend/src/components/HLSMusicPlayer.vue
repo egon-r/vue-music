@@ -1,6 +1,6 @@
 <script lang="ts">
 import Hls from "hls.js"
-import { MusicPlayerData } from "./data/MusicPlayerData"
+import { LoopModes, MusicPlayerData } from "./data/MusicPlayerData"
 import emitter, { HLSPlayerEvents } from "../services/emitter"
 import { backendBaseUrl } from "../main"
 
@@ -9,7 +9,8 @@ const hls = new Hls()
 export default {
   data () {
     return {
-      playerData: MusicPlayerData
+      playerData: MusicPlayerData,
+      currentStreamUrl: undefined
     }
   },
   watch: {
@@ -24,8 +25,17 @@ export default {
       }
     },
     "playerData.currentSong": function (newVal, oldVal) {
-      if (newVal !== oldVal) {
-        this.loadSong(newVal, true)
+      this.loadAndPlay(newVal)
+    },
+    "playerData.currentQueueIndex": function (newVal, oldVal) {
+      const newSong = this.playerData.queue[newVal]
+      if (newSong) {
+        this.$refs.video.currentTime = 0
+        this.playerData.currentSong = newSong
+      } else {
+        this.playerData.currentQueueIndex = oldVal
+        this.$refs.video.currentTime = 0
+        this.pause()
       }
     }
   },
@@ -33,8 +43,6 @@ export default {
     hls.attachMedia(this.$refs.video)
     this.$refs.video.volume = this.playerData.currentVolume
     // setup event bus events
-    emitter.on(HLSPlayerEvents.next_song, this.emitter_onNextSongEvent)
-    emitter.on(HLSPlayerEvents.prev_song, this.emitter_onPrevSongEvent)
     emitter.on(HLSPlayerEvents.seek_to_s, this.emitter_onSeekToS)
     // setup HTMLMediaElement events
     this.$refs.video.onloadedmetadata = this.metadataLoaded
@@ -42,29 +50,51 @@ export default {
   },
   unmounted () {
     // unregister event bus events
-    emitter.off(HLSPlayerEvents.next_song, this.emitter_onNextSongEvent)
-    emitter.off(HLSPlayerEvents.prev_song, this.emitter_onPrevSongEvent)
     emitter.on(HLSPlayerEvents.seek_to_s, this.emitter_onSeekToS)
   },
   methods: {
-    loadSong (song, playNow = false) {
+    loadAndPlay (song) {
       const streamUrl = backendBaseUrl + "/stream/" + song.sha1 + ".m3u8"
-      hls.loadSource(streamUrl)
-      if (playNow) {
-        this.$refs.video.play()
+      if (streamUrl !== this.currentStreamUrl) {
+        hls.loadSource(streamUrl)
+      } else {
+        this.$refs.video.currentTime = 0
       }
+      this.play()
     },
-    emitter_onNextSongEvent () {
-      console.log("HLS Player: next song")
+    play () {
+      this.$refs.video.play()
+      this.playerData.isPlaying = true
     },
-    emitter_onPrevSongEvent () {
-      console.log("HLS Player: prev song")
+    pause () {
+      this.$refs.video.pause()
+      this.playerData.isPlaying = false
     },
     emitter_onSeekToS (seekS) {
       this.$refs.video.currentTime = seekS
+      if (this.$refs.video.paused) {
+        this.play()
+      }
     },
     onPlayTimeUpdate () {
       this.playerData.currentSongPlaytime = this.$refs.video.currentTime
+      if (this.playerData.currentSongPlaytime >= this.playerData.currentSong.duration) {
+        this.onCurrentSongEnded()
+      }
+    },
+    onCurrentSongEnded () {
+      if (this.playerData.loopMode === LoopModes.LoopOne) {
+        this.$refs.video.currentTime = 0
+        this.play()
+      } else if (this.playerData.loopMode === LoopModes.LoopQueue) {
+        if (this.playerData.currentQueueIndex + 1 >= this.playerData.queue.length) {
+          this.playerData.currentQueueIndex = 0
+        } else {
+          this.playerData.currentQueueIndex += 1
+        }
+      } else if (this.playerData.loopMode === LoopModes.None) {
+        this.playerData.currentQueueIndex += 1
+      }
     }
   }
 }

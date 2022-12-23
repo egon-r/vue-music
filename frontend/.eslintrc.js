@@ -13,5 +13,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: "latest"
   },
-  rules: { quotes: [2, "double", { avoidEscape: true }] }
+  rules: {
+    quotes: [2, "double", { avoidEscape: true }],
+  }
 }

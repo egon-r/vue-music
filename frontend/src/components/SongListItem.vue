@@ -1,7 +1,9 @@
 <script lang="ts">
 import { backendBaseUrl } from "../main"
-import emitter, { MusicLibraryEvents } from "../services/emitter"
-import { MusicPlayerData } from "./data/MusicPlayerData"
+import emitter, {
+  MusicLibraryEvents
+} from "../services/emitter"
+import { MusicPlayerData, SongModel } from "./data/MusicPlayerData"
 import axios from "axios"
 import Utils from "../utils/utils"
 
@@ -9,11 +11,34 @@ export default {
   computed: {
     Utils () {
       return Utils
+    },
+    thisIsPlaying () {
+      if (!this.interactive) {
+        if (this.queueIndex === this.playerData.currentQueueIndex) {
+          return true
+        }
+      } else {
+        if (this.song === this.playerData.currentSong) {
+          return true
+        }
+      }
+      return false
     }
   },
   props: {
     song: {
+      type: Object as () => SongModel,
       required: true
+    },
+    interactive: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    queueIndex: {
+      type: Number,
+      required: false,
+      default: -1
     }
   },
   data () {
@@ -22,8 +47,24 @@ export default {
     }
   },
   methods: {
-    playSong (event, song) {
-      this.playerData.currentSong = song
+    listItemClicked (event) {
+      if (this.queueIndex !== -1) {
+        // in a queue, jump to this song
+        this.playerData.currentQueueIndex = this.queueIndex
+      } else {
+        // not in a queue
+        if (this.playerData.isPlaying && this.playing) {
+          this.playerData.isPlaying = false
+        } else {
+          this.playerData.queueIndex = 0
+          this.playerData.queue = [this.song]
+          this.playerData.currentSong = this.song
+          this.playerData.isPlaying = true
+        }
+      }
+    },
+    addToCurrentQueue (event) {
+      this.playerData.queue.push(this.song)
     },
     deleteSong (song) {
       axios
@@ -42,7 +83,12 @@ export default {
 
 <template>
   <div class="flex">
-    <div class="grid flex-auto grid-cols-3" @click="playSong($event, song)">
+    <span v-if="thisIsPlaying"
+          class="material-icons">
+      {{ this.playerData.isPlaying ? "play_arrow" : "pause"}}
+    </span>
+    <div class="grid flex-auto cursor-pointer grid-cols-3"
+         @click="listItemClicked($event)">
       <span class="truncate">
         {{ song.title }}
       </span>
@@ -53,8 +99,17 @@ export default {
         {{ song.album }}
       </span>
     </div>
+
     <div class="mx-4 flex flex-initial">
-      <div class="material-icons w-8 hover:bg-red-600">more_vertical</div>
+      <div v-if="interactive"
+           @click="addToCurrentQueue($event)"
+           class="material-icons w-6 text-clip text-center hover:bg-red-600">
+        playlist_add
+      </div>
+      <span v-if="interactive"
+            class="material-icons w-6 text-clip text-center hover:bg-red-600">
+        more_vertical
+      </span>
       <div class="self-center opacity-60">
         {{ Utils.secondsToDurationStr(song.duration) }}
       </div>
