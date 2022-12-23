@@ -19,6 +19,7 @@
     "material-icons": "^1.13.1",
     "mitt": "^3.0.0",
     "tiny-emitter": "^2.1.0",
+    "typescript": "^4.9.4",
     "vue": "^3.2.45",
     "vue-router": "4"
   },
