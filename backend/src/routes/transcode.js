@@ -1,7 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import {app_config} from "../app_config.js";
-import {exec} from "node:child_process";
 
 
 export default {

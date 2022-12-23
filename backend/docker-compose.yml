@@ -1,6 +1,8 @@
 services:
-  vue-music-backend-dev:
+  vue-music-backend:
     build: .
+    depends_on:
+      - mongo
     command: ["npm", "run", "dev"]
     volumes:
       - ./src:/app/src:ro
