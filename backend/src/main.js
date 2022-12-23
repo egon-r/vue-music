@@ -11,6 +11,7 @@ import {SongModel} from "./models.js";
 import * as fs from "fs";
 import * as crypto from "crypto";
 import {sleep} from "./util/utils.js";
+import * as stream from "stream";
 
 
 
@@ -63,13 +64,30 @@ fastify.get("/v1/library/delete:hash", async (req, res) => {
     SongModel.collection.deleteOne({
         sha1: req.query.hash
     })
+    res.code(200)
+})
 
-    res.status(200)
+fastify.post("/v1/library/upload", async (req, res) => {
+    const parts = req.files()
+    for await (const part of parts) {
+        if(part.file) {
+            const outFilePath = path.join(app_config.musicLibraryStreamingPath, "_transcoding", part.filename)
+            const outFileStream = fs.createWriteStream(outFilePath)
+            const streamPromise = new Promise((resolve, reject) => {
+                part.file.on("end", resolve)
+                part.file.on("error", reject)
+            })
+            part.file.pipe(outFileStream)
+            await streamPromise
+        } else {
+            console.log(part)
+        }
+    }
+    res.code(200)
 })
 
 fastify.post("/v1/library/add", async (req, res) => {
     const files = await req.saveRequestFiles()
-
     for (const file of files) {
         const origFilename = file.filename
         const tmpFilepath = file.filepath
@@ -113,8 +131,7 @@ fastify.post("/v1/library/add", async (req, res) => {
             console.log(song)
         }
     }
-
-    res.status(200)
+    res.code(200)
 })
 
 fastify.listen({port: 3000, host: "0.0.0.0"}, (err, addr) => {

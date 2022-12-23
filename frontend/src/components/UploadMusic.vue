@@ -15,7 +15,7 @@ export default {
       e.preventDefault()
       const formData = new FormData(this.$refs.uploadForm)
       axios
-        .post(backendBaseUrl + "/v1/library/add", formData, {
+        .post(backendBaseUrl + "/v1/library/upload", formData, {
           onUploadProgress: (event) => {
             this.uploadProgress = event.progress * 100
           },
