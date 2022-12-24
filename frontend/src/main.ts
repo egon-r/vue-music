@@ -6,7 +6,8 @@ import Home from "@/routes/Home.vue"
 import Library from "@/routes/Library.vue"
 import Admin from "@/routes/Admin.vue"
 
-export const backendBaseUrl = "http://192.168.0.2:3000"
+export const backendHost = "192.168.0.2:3000"
+export const backendBaseUrl = "http://" + backendHost
 
 const routes = [
   { path: "/", component: Home },

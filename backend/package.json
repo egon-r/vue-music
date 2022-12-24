@@ -11,12 +11,17 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "eslint": "^8.30.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-node": "^11.1.0",
     "nodemon": "^2.0.20"
   },
   "dependencies": {
     "@fastify/cors": "^8.2.0",
     "@fastify/multipart": "^7.3.0",
     "@fastify/static": "^6.6.0",
+    "@fastify/websocket": "^7.1.1",
     "child_process": "^1.0.2",
     "chokidar": "^3.5.3",
     "fastify": "^4.10.2",

@@ -6,7 +6,7 @@ services:
     command: ["npm", "run", "dev"]
     volumes:
       - ./src:/app/src:ro
-      - ./data/music_library_streaming:/app/data/music_library_streaming:rw
+      - ./data/music_library:/app/data/music_library:rw
     ports:
       - 3000:3000
 

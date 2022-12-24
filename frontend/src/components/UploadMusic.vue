@@ -2,9 +2,11 @@
 import { backendBaseUrl } from "../main"
 import emitter, { MusicLibraryEvents } from "../services/emitter"
 import axios from "axios"
+import TranscoderStatus from "./TranscoderStatus.vue";
 
 export default {
-  data: () => {
+  components: { TranscoderStatus },
+  data: function () {
     return {
       uploadProgress: 0.0
     }
@@ -40,10 +42,11 @@ export default {
 <template>
   <form ref="uploadForm">
     <input type="file" name="file[]" multiple />
-    <button class="disabled:bg-gray-500" ref="uploadButton" @click="upload">
+    <button class="disabled:bg-gray-500 bg-slate-700 px-2 py-1" ref="uploadButton" @click="upload">
       Upload
     </button>
     <br />
-    <progress :value="uploadProgress" max="100" />
+    <progress class="w-full" :value="uploadProgress" max="100" />
+    <TranscoderStatus/>
   </form>
 </template>
