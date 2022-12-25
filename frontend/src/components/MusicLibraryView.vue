@@ -41,11 +41,8 @@ export default {
 </script>
 
 <template>
-  <div class="text-3xl">Music2 Library</div>
-  <div
-    class="m-1 cursor-pointer border-2 hover:border-amber-600"
-    v-for="song in songs"
-  >
+  <div class="text-3xl">Music Library</div>
+  <div v-for="song in songs">
     <SongListItem :song="song" />
   </div>
 </template>

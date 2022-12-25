@@ -1,29 +1,35 @@
 <script lang="ts">
 import MusicLibraryView from "@/components/MusicLibraryView.vue"
-import Card from "@/components/Card.vue"
 import UploadMusic from "@/components/UploadMusic.vue"
-import PlayerQueueView from "../components/PlayerQueueView.vue";
+import PlayerQueueView from "../components/PlayerQueueView.vue"
+import ThButton from "../components/themed/ThButton.vue"
+import ThCard from "../components/themed/ThCard.vue"
 
 export default {
   components: {
+    ThCard,
+    ThButton,
     PlayerQueueView,
     UploadMusic,
-    Card,
     MusicLibraryView
   }
 }
 </script>
 
 <template>
-  <Card>
+  <ThCard>
+    <ThButton color="primary">Primary</ThButton>
+    <ThButton color="secondary">Secondary</ThButton>
+  </ThCard>
+  <ThCard>
     <UploadMusic />
-  </Card>
-  <Card>
+  </ThCard>
+  <ThCard>
     <MusicLibraryView />
-  </Card>
-  <Card>
+  </ThCard>
+  <ThCard>
     <PlayerQueueView />
-  </Card>
+  </ThCard>
 </template>
 
 <style scoped></style>

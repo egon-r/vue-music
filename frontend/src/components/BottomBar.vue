@@ -70,7 +70,10 @@ export default {
       select-none
       grid-cols-3
       items-center
-      bg-gray-800
+      border-t
+      border-t-primary-300
+      bg-secondary-800
+      dark:bg-secondary-200
     "
   >
     <div class="m-1 flex flex-col justify-start">
@@ -140,12 +143,12 @@ export default {
       </span>
       <span v-if="playerData.loopMode === LoopModes.LoopOne"
             @click="nextLoopMode"
-            class="material-icons cursor-pointer bg-white bg-opacity-50">
+            class="material-icons cursor-pointer text-primary-600">
         repeat_one
       </span>
       <span v-else-if="playerData.loopMode === LoopModes.LoopQueue"
             @click="nextLoopMode"
-            class="material-icons cursor-pointer bg-white bg-opacity-50">
+            class="material-icons cursor-pointer text-primary-600">
         repeat
       </span>
       <span v-else-if="playerData.loopMode === LoopModes.None"

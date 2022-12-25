@@ -81,12 +81,12 @@ export default {
 </script>
 
 <template>
-  <div class="flex">
+  <div class="flex hover:bg-secondary-200">
     <span v-if="thisIsPlaying"
-          class="material-icons">
+          class="material-icons self-center text-primary-600">
       {{ this.playerData.isPlaying ? "play_arrow" : "pause"}}
     </span>
-    <div class="grid flex-auto cursor-pointer grid-cols-3"
+    <div class="grid flex-auto cursor-pointer grid-cols-3 py-1"
          @click="listItemClicked($event)">
       <span class="truncate">
         {{ song.title }}

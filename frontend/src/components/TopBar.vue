@@ -20,9 +20,11 @@ export default {
       h-16
       max-w-screen-xl
       items-center
-      bg-gray-800
+      border-b border-b-primary-300
+      bg-secondary-800
       px-4
       py-2
+      dark:bg-secondary-200
     "
   >
     <span class="mr-4 flex-initial text-2xl">Vue Music</span>
@@ -47,6 +49,6 @@ export default {
 
 <style scoped>
 .router-link-active {
-  @apply cursor-default font-bold text-red-700;
+  @apply cursor-default font-bold border-b-4 border-b-primary-600;
 }
 </style>
