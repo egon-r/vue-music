@@ -1,6 +1,4 @@
 <script>
-import { backendHost } from "@/main"
-
 export default {
   data () {
     return {
@@ -9,7 +7,7 @@ export default {
     }
   },
   created () {
-    this.connection = new WebSocket("ws://" + backendHost + "/v1/transcode/status/ws")
+    this.connection = new WebSocket("ws://" + this.$backendHost + "/v1/transcode/status/ws")
     this.connection.onopen = function (event) {
       console.log("websocket connected!")
       console.log(event.target)

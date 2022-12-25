@@ -2,15 +2,13 @@
 import Hls from "hls.js"
 import { LoopModes, MusicPlayerData } from "./data/MusicPlayerData"
 import emitter, { HLSPlayerEvents } from "../services/emitter"
-import { backendBaseUrl } from "../main"
-
-const hls = new Hls()
 
 export default {
   data () {
     return {
       playerData: MusicPlayerData,
-      currentStreamUrl: undefined
+      currentStreamUrl: undefined,
+      hls: new Hls()
     }
   },
   watch: {
@@ -40,7 +38,7 @@ export default {
     }
   },
   mounted () {
-    hls.attachMedia(this.$refs.video)
+    this.hls.attachMedia(this.$refs.video)
     this.$refs.video.volume = this.playerData.currentVolume
     // setup event bus events
     emitter.on(HLSPlayerEvents.seek_to_s, this.emitter_onSeekToS)
@@ -54,9 +52,9 @@ export default {
   },
   methods: {
     loadAndPlay (song) {
-      const streamUrl = backendBaseUrl + "/stream/" + song.sha1 + ".m3u8"
+      const streamUrl = this.$backendBaseUrl + "/stream/" + song.sha1 + ".m3u8"
       if (streamUrl !== this.currentStreamUrl) {
-        hls.loadSource(streamUrl)
+        this.hls.loadSource(streamUrl)
       } else {
         this.$refs.video.currentTime = 0
       }

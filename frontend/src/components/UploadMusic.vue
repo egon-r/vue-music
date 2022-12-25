@@ -1,8 +1,7 @@
 <script lang="ts">
-import { backendBaseUrl } from "../main"
 import emitter, { MusicLibraryEvents } from "../services/emitter"
 import axios from "axios"
-import TranscoderStatus from "./TranscoderStatus.vue";
+import TranscoderStatus from "./TranscoderStatus.vue"
 
 export default {
   components: { TranscoderStatus },
@@ -17,7 +16,7 @@ export default {
       e.preventDefault()
       const formData = new FormData(this.$refs.uploadForm)
       axios
-        .post(backendBaseUrl + "/v1/transcode/upload", formData, {
+        .post(this.$backendBaseUrl + "/v1/transcode/upload", formData, {
           onUploadProgress: (event) => {
             this.uploadProgress = event.progress * 100
           },
@@ -42,7 +41,7 @@ export default {
 <template>
   <form ref="uploadForm">
     <input type="file" name="file[]" multiple />
-    <button class="disabled:bg-gray-500 bg-slate-700 px-2 py-1" ref="uploadButton" @click="upload">
+    <button class="bg-slate-700 px-2 py-1 disabled:bg-gray-500" ref="uploadButton" @click="upload">
       Upload
     </button>
     <br />

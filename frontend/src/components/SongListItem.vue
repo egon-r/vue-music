@@ -1,5 +1,4 @@
 <script lang="ts">
-import { backendBaseUrl } from "../main"
 import emitter, {
   MusicLibraryEvents
 } from "../services/emitter"
@@ -68,7 +67,7 @@ export default {
     },
     deleteSong (song) {
       axios
-        .get(backendBaseUrl + "/v1/library/delete", {
+        .get(this.$backendBaseUrl + "/v1/library/delete", {
           params: {
             hash: song.sha1
           }
