@@ -5,8 +5,10 @@ import emitter, {
 import { MusicPlayerData, SongModel } from "./data/MusicPlayerData"
 import axios from "axios"
 import Utils from "../utils/utils"
+import ThButton from "./themed/ThButton.vue"
 
 export default {
+  components: { ThButton },
   computed: {
     Utils () {
       return Utils
@@ -67,7 +69,7 @@ export default {
     },
     deleteSong (song) {
       axios
-        .get(this.$backendBaseUrl + "/v1/library/delete", {
+        .get(this.$backendBaseUrl + "/v1/songs/delete", {
           params: {
             hash: song.sha1
           }
@@ -81,35 +83,41 @@ export default {
 </script>
 
 <template>
-  <div class="flex hover:bg-secondary-200">
+  <div class="flex flex-row hover:bg-secondary-800 dark:hover:bg-secondary-200">
     <span v-if="thisIsPlaying"
           class="material-icons self-center text-primary-600">
-      {{ this.playerData.isPlaying ? "play_arrow" : "pause"}}
+      {{ this.playerData.isPlaying ? "play_arrow" : "pause" }}
     </span>
-    <div class="grid flex-auto cursor-pointer grid-cols-3 py-1"
+    <div class="grid grow cursor-pointer py-1 md:grid-cols-2"
          @click="listItemClicked($event)">
-      <span class="truncate">
+      <div class="truncate">
         {{ song.title }}
-      </span>
-      <span class="truncate">
-        {{ song.artist }}
-      </span>
-      <span class="truncate">
-        {{ song.album }}
-      </span>
-    </div>
-
-    <div class="mx-4 flex flex-initial">
-      <div v-if="interactive"
-           @click="addToCurrentQueue($event)"
-           class="material-icons w-6 text-clip text-center hover:bg-red-600">
-        playlist_add
       </div>
-      <span v-if="interactive"
-            class="material-icons w-6 text-clip text-center hover:bg-red-600">
-        more_vertical
-      </span>
-      <div class="self-center opacity-60">
+      <div class="flex truncate opacity-50 md:grid md:grid-cols-2">
+        <div class="truncate">
+          {{ song.artist }}
+        </div>
+        <div class="md:hidden"> - </div>
+        <div class="truncate">
+          {{ song.album }}
+        </div>
+      </div>
+    </div>
+    <div class="flex">
+      <ThButton v-if="interactive"
+                @click="addToCurrentQueue($event)"
+                variant="transparent"
+                color="secondary"
+                class="material-icons w-10">
+        playlist_add
+      </ThButton>
+      <ThButton v-if="interactive"
+                variant="transparent"
+                color="secondary"
+                class="material-icons w-10">
+        menu
+      </ThButton>
+      <div class="self-center opacity-50">
         {{ Utils.secondsToDurationStr(song.duration) }}
       </div>
     </div>

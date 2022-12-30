@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     fetchSongs () {
-      axios.get(this.$backendBaseUrl + "/v1/library").then((response) => {
+      axios.get(this.$backendBaseUrl + "/v1/songs").then((response) => {
         this.songs = response.data
       }).catch((e) => {
         console.error(e)

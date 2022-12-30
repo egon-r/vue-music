@@ -10,7 +10,7 @@ export default {}
 
 <style scoped>
 div {
-    @apply rounded-xl border p-4 m-4
+    @apply rounded-xl border p-4 m-4 truncate
         dark:border-secondary-300 border-secondary-800
         dark:bg-secondary-100 bg-secondary-900
     ;

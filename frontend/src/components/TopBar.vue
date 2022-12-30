@@ -20,14 +20,15 @@ export default {
       h-16
       max-w-screen-xl
       items-center
-      border-b border-b-primary-300
+      overflow-scroll border-b
+      border-b-primary-300
       bg-secondary-800
       px-4
       py-2
       dark:bg-secondary-200
     "
   >
-    <span class="mr-4 flex-initial text-2xl">Vue Music</span>
+    <span class="mr-4 flex-initial whitespace-nowrap text-2xl">Vue Music</span>
     <div class="flex h-16">
       <router-link class="flex h-full items-center hover:font-bold" to="/">
         <div class="w-20 select-none text-center">Home</div>

@@ -20,7 +20,7 @@ export default {
   <main>
     <TopBar />
     <HLSMusicPlayer />
-    <div class="mx-auto max-w-screen-xl">
+    <div class="mx-auto w-screen max-w-screen-xl">
       <RouterView />
     </div>
     <BottomBar />

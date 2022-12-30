@@ -6,7 +6,6 @@ import Home from "@/routes/Home.vue"
 import Library from "@/routes/Library.vue"
 import Admin from "@/routes/Admin.vue"
 
-
 const backendHost = "192.168.0.2:3000"
 
 const routes = [

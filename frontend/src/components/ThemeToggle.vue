@@ -1,6 +1,9 @@
 <script lang="ts">
+import ThButton from "./themed/ThButton.vue"
+
 export default {
   name: "ThemeToggle",
+  components: { ThButton },
   data () {
     const initialTheme = this.getCurrentTheme()
     return {
@@ -66,23 +69,13 @@ export default {
     secondary:
     <input type="range" value="240" min="0" max="360" ref="secondaryColorSelect" @input="setThemeColors"/>
   </div>
-  <button
+  <ThButton
     @click="onClick"
-    class="
-      aspect-square
-      h-12
-      w-12
-      rounded-full
-      border border-slate-900
-      bg-slate-600
-      pt-1
-      hover:bg-slate-500
-      active:bg-slate-700
-      dark:border-slate-300
-    "
+    variant="transparent"
+    class="aspect-square h-12 w-12 rounded-full"
   >
     <span v-if="theme === 'dark'" class="material-icons">light_mode</span>
     <span v-if="theme === 'light'" class="material-icons">dark_mode</span>
     <span v-if="theme === 'auto'" class="material-icons">brightness_auto</span>
-  </button>
+  </ThButton>
 </template>

@@ -2,9 +2,11 @@
 import emitter, { MusicLibraryEvents } from "../services/emitter"
 import axios from "axios"
 import TranscoderStatus from "./TranscoderStatus.vue"
+import ThButton from "./themed/ThButton.vue"
+import ThProgress from "./themed/ThProgress.vue"
 
 export default {
-  components: { TranscoderStatus },
+  components: { ThProgress, ThButton, TranscoderStatus },
   data: function () {
     return {
       uploadProgress: 0.0
@@ -41,11 +43,11 @@ export default {
 <template>
   <form ref="uploadForm">
     <input type="file" name="file[]" multiple />
-    <button class="bg-slate-700 px-2 py-1 disabled:bg-gray-500" ref="uploadButton" @click="upload">
+    <ThButton ref="uploadButton" @click="upload">
       Upload
-    </button>
+    </ThButton>
     <br />
-    <progress class="w-full" :value="uploadProgress" max="100" />
+    <ThProgress class="w-full" :progress="uploadProgress" />
     <TranscoderStatus/>
   </form>
 </template>
