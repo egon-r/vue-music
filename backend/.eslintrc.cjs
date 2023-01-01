@@ -3,7 +3,6 @@ module.exports = {
         "es2021": true,
         "node": true
     },
-    "extends": "google",
     "overrides": [
     ],
     "parserOptions": {
@@ -11,5 +10,6 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
+        quotes: [2, "double", { avoidEscape: true }],
     }
 }

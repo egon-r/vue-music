@@ -2,10 +2,12 @@
 import Hls from "hls.js"
 import { LoopModes, MusicPlayerData } from "./data/MusicPlayerData"
 import emitter, { HLSPlayerEvents } from "../services/emitter"
+import { AppSettings } from "./data/AppSettings"
 
 export default {
   data () {
     return {
+      appSettings: AppSettings,
       playerData: MusicPlayerData,
       currentStreamUrl: undefined,
       hls: new Hls()
@@ -52,7 +54,7 @@ export default {
   },
   methods: {
     loadAndPlay (song) {
-      const streamUrl = this.$backendBaseUrl + "/stream/" + song.sha1 + ".m3u8"
+      const streamUrl = this.appSettings.backendHttpBase() + "/stream/" + song.sha1 + ".m3u8"
       if (streamUrl !== this.currentStreamUrl) {
         this.hls.loadSource(streamUrl)
       } else {
@@ -75,6 +77,11 @@ export default {
       }
     },
     onPlayTimeUpdate () {
+      console.log("HLS Bandwidth: " + (this.hls.bandwidthEstimate / 1000).toFixed() + "Kbps")
+      for (let i = 0; i < this.$refs.video.buffered.length; i++) {
+        console.log("Buffered: " + this.$refs.video.buffered.start(i) + " ... " + this.$refs.video.buffered.end(i))
+      }
+
       this.playerData.currentSongPlaytime = this.$refs.video.currentTime
       if (this.playerData.currentSongPlaytime >= this.playerData.currentSong.duration) {
         this.onCurrentSongEnded()

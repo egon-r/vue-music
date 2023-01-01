@@ -1,4 +1,4 @@
-import {mongoose} from 'mongoose';
+import {mongoose, Schema} from "mongoose";
 
 const songSchema = new mongoose.Schema({
   title: String,
@@ -11,5 +11,21 @@ const songSchema = new mongoose.Schema({
     index: true,
     unique: true,
   },
+  thumbnail: {
+    type: Schema.Types.ObjectId,
+    ref: "thumbnail"
+  }
 });
-export const SongModel = mongoose.model('song', songSchema);
+
+const thumbnailSchema = new mongoose.Schema({
+  sha1: {
+    type: String,
+    index: true,
+    unique: true
+  },
+  format: String,
+  data: Buffer,
+})
+
+export const SongModel = mongoose.model("song", songSchema);
+export const ThumbnailModel = mongoose.model("thumbnail", thumbnailSchema);

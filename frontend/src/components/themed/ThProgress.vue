@@ -1,4 +1,6 @@
 <script>
+import { ThemedProps } from "@/components/themed/ThemedProps"
+
 export default {
   props: {
     progress: {
@@ -6,11 +8,7 @@ export default {
       required: true,
       default: 0
     },
-    color: {
-      type: String,
-      required: false,
-      default: "primary"
-    }
+    color: ThemedProps.color
   },
   computed: {
     colorClass () {

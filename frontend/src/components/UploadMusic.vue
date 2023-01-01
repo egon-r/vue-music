@@ -4,11 +4,13 @@ import axios from "axios"
 import TranscoderStatus from "./TranscoderStatus.vue"
 import ThButton from "./themed/ThButton.vue"
 import ThProgress from "./themed/ThProgress.vue"
+import { AppSettings } from "./data/AppSettings"
 
 export default {
   components: { ThProgress, ThButton, TranscoderStatus },
   data: function () {
     return {
+      appSettings: AppSettings,
       uploadProgress: 0.0
     }
   },
@@ -18,7 +20,7 @@ export default {
       e.preventDefault()
       const formData = new FormData(this.$refs.uploadForm)
       axios
-        .post(this.$backendBaseUrl + "/v1/transcode/upload", formData, {
+        .post(this.appSettings.backendHttpBase() + "/v1/transcode/upload", formData, {
           onUploadProgress: (event) => {
             this.uploadProgress = event.progress * 100
           },
@@ -47,7 +49,7 @@ export default {
       Upload
     </ThButton>
     <br />
-    <ThProgress class="w-full" :progress="uploadProgress" />
+    <ThProgress class="w-full" :progress=uploadProgress />
     <TranscoderStatus/>
   </form>
 </template>

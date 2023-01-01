@@ -3,6 +3,7 @@ import { RouterView } from "vue-router"
 import TopBar from "@/components/TopBar.vue"
 import HLSMusicPlayer from "@/components/HLSMusicPlayer.vue"
 import BottomBar from "@/components/BottomBar.vue"
+import { ApplyTheme, LoadAppSettings } from "./components/data/AppSettings"
 
 export default {
   components: {
@@ -10,6 +11,10 @@ export default {
     TopBar,
     RouterView,
     HLSMusicPlayer
+  },
+  setup () {
+    LoadAppSettings()
+    ApplyTheme()
   }
 }
 </script>

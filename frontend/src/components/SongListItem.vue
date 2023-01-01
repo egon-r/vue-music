@@ -6,6 +6,7 @@ import { MusicPlayerData, SongModel } from "./data/MusicPlayerData"
 import axios from "axios"
 import Utils from "../utils/utils"
 import ThButton from "./themed/ThButton.vue"
+import { AppSettings } from "./data/AppSettings"
 
 export default {
   components: { ThButton },
@@ -44,6 +45,7 @@ export default {
   },
   data () {
     return {
+      appSettings: AppSettings,
       playerData: MusicPlayerData
     }
   },
@@ -69,7 +71,7 @@ export default {
     },
     deleteSong (song) {
       axios
-        .get(this.$backendBaseUrl + "/v1/songs/delete", {
+        .get(this.appSettings.backendHttpBase() + "/v1/songs/delete", {
           params: {
             hash: song.sha1
           }
@@ -83,7 +85,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-row hover:bg-secondary-800 dark:hover:bg-secondary-200">
+  <div class="flex flex-row items-center hover:bg-secondary-800 dark:hover:bg-secondary-200">
     <span v-if="thisIsPlaying"
           class="material-icons self-center text-primary-600">
       {{ this.playerData.isPlaying ? "play_arrow" : "pause" }}
@@ -97,7 +99,7 @@ export default {
         <div class="truncate">
           {{ song.artist }}
         </div>
-        <div class="md:hidden"> - </div>
+        <div class="md:hidden">&nbsp;-&nbsp;</div>
         <div class="truncate">
           {{ song.album }}
         </div>

@@ -4,11 +4,13 @@ import emitter, {
 } from "../services/emitter"
 import axios from "axios"
 import SongListItem from "./SongListItem.vue"
+import { AppSettings } from "./data/AppSettings"
 
 export default {
   components: { SongListItem },
   data () {
     return {
+      appSettings: AppSettings,
       songs: null
     }
   },
@@ -27,7 +29,7 @@ export default {
   },
   methods: {
     fetchSongs () {
-      axios.get(this.$backendBaseUrl + "/v1/songs").then((response) => {
+      axios.get(this.appSettings.backendHttpBase() + "/v1/songs").then((response) => {
         this.songs = response.data
       }).catch((e) => {
         console.error(e)

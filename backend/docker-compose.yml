@@ -3,7 +3,7 @@ services:
     build: .
     depends_on:
       - mongo
-    command: ["npm", "run", "dev"]
+    # command: ["npm", "run", "dev"]
     volumes:
       - ./src:/app/src:ro
       - ./data/music_library:/app/data/music_library:rw

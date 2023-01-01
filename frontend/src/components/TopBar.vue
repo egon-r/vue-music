@@ -20,7 +20,8 @@ export default {
       h-16
       max-w-screen-xl
       items-center
-      overflow-scroll border-b
+      truncate
+      border-b
       border-b-primary-300
       bg-secondary-800
       px-4
@@ -30,17 +31,23 @@ export default {
   >
     <span class="mr-4 flex-initial whitespace-nowrap text-2xl">Vue Music</span>
     <div class="flex h-16">
-      <router-link class="flex h-full items-center hover:font-bold" to="/">
+      <router-link
+        class="flex h-full items-center outline-none hover:font-bold"
+        to="/"
+      >
         <div class="w-20 select-none text-center">Home</div>
       </router-link>
       <router-link
-        class="flex h-full items-center hover:font-bold"
+        class="flex h-full items-center outline-none hover:font-bold"
         to="/library"
       >
         <div class="w-20 select-none text-center">Library</div>
       </router-link>
-      <router-link class="flex h-full items-center hover:font-bold" to="/admin">
-        <div class="w-20 select-none text-center">Admin</div>
+      <router-link
+        class="flex h-full items-center outline-none hover:font-bold"
+        to="/settings"
+      >
+        <div class="w-20 select-none text-center">Settings</div>
       </router-link>
     </div>
     <div class="grow" />

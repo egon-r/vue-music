@@ -1,16 +1,18 @@
 <script>
+import { AppSettings } from "@/components/data/AppSettings"
+
 export default {
   data () {
     return {
+      appSettings: AppSettings,
       connection: null,
       transcode_queue_size: 0
     }
   },
   created () {
-    this.connection = new WebSocket("ws://" + this.$backendHost + "/v1/transcode/status/ws")
+    this.connection = new WebSocket(this.appSettings.backendWsBase() + "/v1/transcode/status/ws")
     this.connection.onopen = function (event) {
       console.log("websocket connected!")
-      console.log(event.target)
     }
     this.connection.onmessage = this.onWsMessage
   },
