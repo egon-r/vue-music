@@ -86,10 +86,13 @@ export default {
 
 <template>
   <div class="flex flex-row items-center hover:bg-secondary-800 dark:hover:bg-secondary-200">
-    <span v-if="thisIsPlaying"
-          class="material-icons self-center text-primary-600">
-      {{ this.playerData.isPlaying ? "play_arrow" : "pause" }}
-    </span>
+    <div class="flex h-12 w-12 items-center justify-center">
+      <span v-if="thisIsPlaying"
+            class="material-icons absolute self-center text-primary-600">
+        {{ this.playerData.isPlaying ? "play_arrow" : "pause" }}
+      </span>
+      <img class="h-12 w-12" :src="appSettings.backendHttpBase() + '/v1/thumb?sha1=' + song.thumbnailSha1 " />
+    </div>
     <div class="grid grow cursor-pointer py-1 md:grid-cols-2"
          @click="listItemClicked($event)">
       <div class="truncate">

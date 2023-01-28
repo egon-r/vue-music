@@ -24,6 +24,12 @@ export default {
         this.$refs.video.pause()
       }
     },
+    "playerData.seekTo": function (newVal, oldVal) {
+      this.$refs.video.currentTime = newVal
+      if (this.$refs.video.paused) {
+        this.play()
+      }
+    },
     "playerData.currentSong": function (newVal, oldVal) {
       this.loadAndPlay(newVal)
     },
@@ -42,15 +48,12 @@ export default {
   mounted () {
     this.hls.attachMedia(this.$refs.video)
     this.$refs.video.volume = this.playerData.currentVolume
-    // setup event bus events
-    emitter.on(HLSPlayerEvents.seek_to_s, this.emitter_onSeekToS)
     // setup HTMLMediaElement events
     this.$refs.video.onloadedmetadata = this.metadataLoaded
     this.$refs.video.ontimeupdate = this.onPlayTimeUpdate
   },
   unmounted () {
-    // unregister event bus events
-    emitter.on(HLSPlayerEvents.seek_to_s, this.emitter_onSeekToS)
+    //
   },
   methods: {
     loadAndPlay (song) {
@@ -69,12 +72,6 @@ export default {
     pause () {
       this.$refs.video.pause()
       this.playerData.isPlaying = false
-    },
-    emitter_onSeekToS (seekS) {
-      this.$refs.video.currentTime = seekS
-      if (this.$refs.video.paused) {
-        this.play()
-      }
     },
     onPlayTimeUpdate () {
       console.log("HLS Bandwidth: " + (this.hls.bandwidthEstimate / 1000).toFixed() + "Kbps")

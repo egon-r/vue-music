@@ -5,7 +5,6 @@ import path from "node:path";
 import {app_config} from "../app_config.js";
 import * as MusicMetadata from "music-metadata";
 import {SongModel} from "../models.js";
-import * as crypto from "crypto";
 import {spawn} from "child_process";
 import transcode from "../routes/transcode.js";
 import axios from "axios";
@@ -118,6 +117,7 @@ export const TranscodeService = {
       year: year,
       duration: metadata.format.duration,
       sha1: hash,
+      thumbnailSha1: null,
     });
   },
 

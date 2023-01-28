@@ -14,7 +14,7 @@ export default {
       fixed
       inset-x-0
       top-0
-      z-10
+      z-30
       mx-auto
       flex
       h-16

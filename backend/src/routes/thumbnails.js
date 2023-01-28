@@ -20,7 +20,20 @@ export default {
                 res.code(200)
             } catch (e) {
                 console.log(e)
-                res.code(413)
+                res.code(400)
+            }
+        })
+
+        fastify.get("/v1/thumb:sha1", async (req, res) => {
+            try {
+                const thumb = await ThumbnailModel.findOne({
+                    sha1: req.query.sha1
+                })
+                res.type(thumb.format)
+                res.send(thumb.data)
+            } catch (e) {
+                console.log(e)
+                res.code(404)
             }
         })
     }

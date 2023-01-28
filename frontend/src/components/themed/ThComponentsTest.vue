@@ -4,16 +4,22 @@ import ThButton from "@/components/themed/ThButton.vue"
 import ThCard from "@/components/themed/ThCard.vue"
 import ThTextInput from "@/components/themed/ThTextInput.vue"
 import ThSlider from "@/components/themed/ThSlider.vue"
+import ThModal from "@/components/themed/ThModal.vue"
 
 export default {
   name: "ThComponentsTest",
-  components: { ThSlider, ThTextInput, ThCard, ThButton, ThProgress }
+  components: { ThModal, ThSlider, ThTextInput, ThCard, ThButton, ThProgress },
+  methods: {
+    primaryClicked (e) {
+      this.$refs.modal.show()
+    }
+  }
 }
 </script>
 
 <template>
   <ThCard class="grid grid-cols-2 gap-4">
-    <ThButton color="primary">Primary</ThButton>
+    <ThButton ref="buttonPrimary" color="primary" @click="primaryClicked">Primary</ThButton>
     <ThButton color="secondary">Secondary</ThButton>
     <ThProgress :progress=60></ThProgress>
     <ThProgress :progress=20 color="secondary"></ThProgress>
@@ -24,7 +30,11 @@ export default {
     <ThTextInput/>
     <ThTextInput color="secondary"/>
     <ThSlider/>
-    <input type="range"/>
+    <ThSlider/>
+    <ThModal ref="modal">
+      Popover Test
+      <ThButton @click="this.$refs.modal.hide()">Popover Button</ThButton>
+    </ThModal>
   </ThCard>
 </template>
 

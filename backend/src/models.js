@@ -6,15 +6,12 @@ const songSchema = new mongoose.Schema({
   album: String,
   year: Number,
   duration: Number,
+  thumbnailSha1: String,
   sha1: {
     type: String,
     index: true,
     unique: true,
   },
-  thumbnail: {
-    type: Schema.Types.ObjectId,
-    ref: "thumbnail"
-  }
 });
 
 const thumbnailSchema = new mongoose.Schema({

@@ -18,14 +18,11 @@ export default {
 </script>
 
 <template>
-  <ThCard>
+  <ThCard color="secondary">
     <UploadMusic />
   </ThCard>
-  <ThCard>
+  <ThCard color="secondary">
     <MusicLibraryView />
-  </ThCard>
-  <ThCard>
-    <PlayerQueueView />
   </ThCard>
 </template>
 

@@ -9,7 +9,7 @@ export default {
 </script>
 
 <template>
-  <input type="range" />
+  <input type="range"/>
 </template>
 
 <style scoped>
