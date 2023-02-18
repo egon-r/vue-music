@@ -46,7 +46,7 @@ await main();
 
 function setupFastify() {
   const fastify = Fastify({
-    // logger: true
+    logger: true
   });
 
   console.log(app_config.dataDirPath)
@@ -69,6 +69,5 @@ function setupRoutes(fastify) {
 
 async function setupMongoose() {
   mongoose.set("strictQuery", false);
-  // await mongoose.connect("mongodb://root:password@mongo:27017/");
-  await mongoose.connect("mongodb://root:password@localhost:27017/");
+  await mongoose.connect("mongodb://root:password@mongo:27017/");
 }

@@ -1,14 +1,18 @@
 services:
-  vue-music-backend:
-    build: .
+  backend:
+    build: backend
     depends_on:
       - mongo
-    # command: ["npm", "run", "dev"]
-    volumes:
-      - ./src:/app/src:ro
-      - ./data/music_library:/app/data/music_library:rw
     ports:
       - 3000:3000
+    volumes:
+      - ./backend/src:/app/src:ro
+      - ./backend/data/music_library:/app/data/music_library:rw
+
+  frontend:
+    ports:
+      - 8080:80
+    build: frontend
 
   mongo:
     image: mongo
@@ -18,4 +22,4 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./data/dbdata:/data/db
+      - ./backend/data/dbdata:/data/db
